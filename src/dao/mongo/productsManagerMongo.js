@@ -46,9 +46,9 @@ export class ProductsManagerMongo {
       throw new Error(`no se pudo updatear el producto ${error.message}`);
     }
   }
-  async deleteProduct() {
+  async deleteProduct(productId) {
     try {
-      const result = await this.model.findIdAndDelete(productId);
+      const result = await this.model.findByIdAndDelete(productId);
       if (!result) throw new Error("No se pudo deletear el producto");
       return result;
     } catch (error) {

@@ -1,0 +1,9 @@
+// Primero creas el modelo de la futura clase o store
+
+// luego se lo importa y se lo setea en el constructor como = this.model = importedStore
+
+// crear metodos del store
+
+// importar y crear servicio en indexej: export const productsService = new productsManagerMongo();
+
+// importar servicio desde app.js y setearlo Ej:  app.use("/api/products", productRouter)
