@@ -5,7 +5,7 @@ const key = "EuZp1145a5nOjOEK";
 export const connectDB = async () => {
   try {
     await mongoose.connect(
-      `mongodb+srv://nicolaspallaresdg:${key}@cluster0.mbmpflt.mongodb.net/?retryWrites=true&w=majority`
+      `mongodb+srv://nicolaspallaresdg:${key}@cluster0.mbmpflt.mongodb.net/ecommerceDB?retryWrites=true&w=majority`
     );
     console.log("Base de datos conectada");
   } catch (error) {

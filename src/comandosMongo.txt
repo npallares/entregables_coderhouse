@@ -1,0 +1,78 @@
+sudo systemctl status mongod  // status de la BD
+sudo systemctl start mongod   // inicia la BD 
+sudo systemctl stop mongod    // frena la BD
+
+mongosh   //abre terminal de mongo
+
+ // crea una nueva base de datos y switchea.
+use nuevaBaseDeDatos;
+
+// muestra base de datos sobre la que estamos posicionados.
+db; 
+
+//crear coleccion
+db.createCollection("users") 
+
+// switchea a otr colección, en este caso usersDB
+use usersDB
+
+// insertMany busca la coleccion y si no existe la crea y agrega los objetos
+db.users.insertMany([{name:"pepe",gender:"M"},{name:"lucas",gender:"M"},{name:"ana",gender:"F"}]);
+
+// verificar documentos en al coleccion de usuarios
+db.users.find();
+
+// Filtos par solo encuentre los generos masculinos
+db.users.find({gender:"M"});
+
+// arroja la cantidad de posiciones dentro de users
+db.users.count()
+
+// Filtros Avanzados
+db.collection.find({key:{$operator:val}})
+
+filteros: 
+$and: Cumplen mas de 2 condiciones {$and:[{},{}]};
+$or: Cumplen almenos 1 condiciones {$or:[{},{}]};
+$lt: valores menores que el valor especificados;
+$lte: valores menores o iguales que el valor especificados;
+$gt: valores mayores que el valor especificados;
+$gte: valores mayores o iguales que el valor especificados;
+$ne: niega el valor;
+$eq: selecciona los iguales;
+$exist: selecciona documento segun un campo especifico;
+$in: seleciona documentos especificos: {key:{$in:[array of value]}} ej:si el curso es html, css traemelso, si es otro curso no
+$nin: niega el $in;
+$size: segun length;
+
+mas operadores : mongodb.com/docs/reference/operator/query
+
+EJEMPLOS:
+db.estudiantes.find({edad:{$lte:'22'}}); // trae los estudiantes menores o igual a 22 (9cuidado con las '')
+db.estudiantes.find({curso:{$in:["html","css"]}}) // trae estudiantes del curso css y html;
+db.estudiantes.find({curso:{$nin:["html","css"]}}) // trae estudiantes que no sean cursos css y html;
+db.estudiantes.find({nombre:{$exists:true}}); // trae todos los que tengan nombre;
+db.estudiantes.distinct("curso") // trae todos los valores referente a curso
+
+
+db.estudiantes.find({},{nombre:1}) // obtener solo la propiedad deseada de cada elemento;
+db.estudiantes.find({},{nombre:1, edad:1}) // obtener solo el nombre y la edad de cada elemento;
+db.estudiantes.find({},{nombre:1, _id:0}) // solo el nombre sin el id de cada elemento;
+db.estudiantes.find({},{nombre:1, edad:1, _id:0}) // obtener solo el nombre y la edad de cada elementos sin el id;
+
+
+Sort()
+db.estudiantes.find().sort({edad:1}) // reoredamiento de elementos por edad y el 1 significa acendente
+db.estudiantes.find().sort({edad:-1}) // reoredamiento de elementos por edad y el -1 significa descendente
+db.estudiantes.find({},{nombre:1,edad:1,_id:0}).sort({edad:-1}) // sort descendente solo nombre y edad
+
+Skip() y Limit()
+db.estudiantes.find().skip(2); // skipea los 2 primeros resultados
+db.estudiantes.find().limit(2); // trae los 2 primeros resultados
+db.estudiantes.find({},{nombre:1, edad:1, _id:0}).sort({edad:1}).skip(1).limit(1); // estudiante mas joven salteandote el 1° y traerme solo 1
+
+update()
+db.estudiantes.updateOne({nombre:'federico'},{$set:{edad:"27"}}); // updatea la edad de federico a 27
+
+delete()
+db.estudiantes.deleteOne({nombre:'julian'}) // Elimina el 1° que hace match
